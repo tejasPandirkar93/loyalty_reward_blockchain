@@ -1,10 +1,15 @@
-export const contractAddress = ""; // insert deployed contract address
+export const contractAddress = "";
 export const abi = [
   {
     inputs: [
       {
         internalType: "string",
         name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_password",
         type: "string",
       },
     ],
@@ -111,6 +116,25 @@ export const abi = [
         type: "address",
       },
     ],
+    name: "checkIsPartnerLogged",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
     name: "checkIsUserLogged",
     outputs: [
       {
@@ -144,6 +168,11 @@ export const abi = [
             type: "string",
           },
           {
+            internalType: "string",
+            name: "password",
+            type: "string",
+          },
+          {
             components: [
               {
                 internalType: "uint256",
@@ -169,6 +198,11 @@ export const abi = [
             internalType: "struct Loyalty.Products[]",
             name: "productList",
             type: "tuple[]",
+          },
+          {
+            internalType: "bool",
+            name: "isLoggedIn",
+            type: "bool",
           },
         ],
         internalType: "struct Loyalty.Partners[]",
@@ -252,6 +286,11 @@ export const abi = [
             type: "string",
           },
           {
+            internalType: "string",
+            name: "password",
+            type: "string",
+          },
+          {
             components: [
               {
                 internalType: "uint256",
@@ -277,6 +316,11 @@ export const abi = [
             internalType: "struct Loyalty.Products[]",
             name: "productList",
             type: "tuple[]",
+          },
+          {
+            internalType: "bool",
+            name: "isLoggedIn",
+            type: "bool",
           },
         ],
         internalType: "struct Loyalty.Partners",
@@ -437,30 +481,6 @@ export const abi = [
         name: "_address",
         type: "address",
       },
-      {
-        internalType: "string",
-        name: "_password",
-        type: "string",
-      },
-    ],
-    name: "login",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
     ],
     name: "logout",
     outputs: [],
@@ -491,6 +511,16 @@ export const abi = [
         internalType: "string",
         name: "name",
         type: "string",
+      },
+      {
+        internalType: "string",
+        name: "password",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isLoggedIn",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -537,6 +567,43 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "_password",
+        type: "string",
+      },
+    ],
+    name: "partnerLogin",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "partnerLogout",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "",
         type: "uint256",
@@ -558,6 +625,16 @@ export const abi = [
         internalType: "string",
         name: "name",
         type: "string",
+      },
+      {
+        internalType: "string",
+        name: "password",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isLoggedIn",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -781,6 +858,30 @@ export const abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "_password",
+        type: "string",
+      },
+    ],
+    name: "userLogin",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

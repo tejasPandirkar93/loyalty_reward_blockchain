@@ -44,7 +44,7 @@ window.addUser = async function (name, password) {
     }
 }
 
-window.addPartner = async function (name) {
+window.addPartner = async function (name, password) {
     console.log("Adding Partner: ", name)
 
     if (typeof window.ethereum !== "undefined") {
@@ -57,7 +57,10 @@ window.addPartner = async function (name) {
         const signer = provider.getSigner()
         const contract = new ethers.Contract(contractAddress, abi, signer)
         try {
-            const transactionResponse = await contract.addPartner(name)
+            const transactionResponse = await contract.addPartner(
+                name,
+                password
+            )
             await listenForTransactionMine(transactionResponse, provider)
             // await transactionResponse.wait(1)
         } catch (error) {
@@ -68,7 +71,7 @@ window.addPartner = async function (name) {
     }
 }
 
-window.retrieveAllUsers = async function () {
+window.getAllUsers = async function () {
     if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         await provider.send("eth_requestAccounts", [])
@@ -96,8 +99,7 @@ window.getUserDetails = async function (address) {
         try {
             const user = await contract.getUserDetails(address)
 
-            console.log("users: ", user)
-            // await transactionResponse.wait(1)
+            return user
         } catch (error) {
             console.log(error)
         }
@@ -106,7 +108,7 @@ window.getUserDetails = async function (address) {
     }
 }
 
-window.retrieveAllPartners = async function () {
+window.getAllPartners = async function () {
     if (typeof window.ethereum !== "undefined") {
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         await provider.send("eth_requestAccounts", [])
@@ -144,7 +146,7 @@ window.getPartnerDetails = async function (address) {
     }
 }
 
-window.login = async function (password) {
+window.loginUser = async function (password) {
     if (typeof window.ethereum !== "undefined") {
         const metaMaskAddress = await ethereum.request({
             method: "eth_requestAccounts",
@@ -154,9 +156,102 @@ window.login = async function (password) {
         const signer = provider.getSigner()
         const contract = new ethers.Contract(contractAddress, abi, signer)
         try {
-            const status = await contract.login(metaMaskAddress[0], password)
+            const userResponse = await contract.userLogin(
+                metaMaskAddress[0],
+                password
+            )
+            await listenForTransactionMine(userResponse, provider)
+            const status = await contract.checkIsUserLogged(metaMaskAddress[0])
+            console.log("User login Status: ", status)
 
-            console.log("Partners: ", partners)
+            //if (status.toString().localeCompare("true")) {
+            const userDetails = await contract.getUserDetails(
+                metaMaskAddress[0]
+            )
+
+            console.log("Index Page User Details: ", userDetails)
+            localStorage.setItem("userDetails", userDetails)
+            window.location.href = "/pages/userHome.html"
+            //}
+            //const userDetails = getUserDetails(metaMaskAddress[0])
+            //console.log("User Details: ", userDetails)
+            //localStorage.setItem("userDetails", userDetails)
+            //window.location.href = "/pages/userHome.html"
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        console.log("Error")
+    }
+}
+
+window.userLogout = async function (password) {
+    if (typeof window.ethereum !== "undefined") {
+        const metaMaskAddress = await ethereum.request({
+            method: "eth_requestAccounts",
+        })
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        await provider.send("eth_requestAccounts", [])
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, abi, signer)
+        try {
+            const status = await contract.logout(metaMaskAddress[0])
+            await listenForTransactionMine(status, provider)
+            console.log("User login Status: ", status)
+            localStorage.removeItem("userDetails")
+            window.location.reload()
+            window.location.href = "/pages/index.html"
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        console.log("Error")
+    }
+}
+
+window.loginPartner = async function (password) {
+    if (typeof window.ethereum !== "undefined") {
+        const metaMaskAddress = await ethereum.request({
+            method: "eth_requestAccounts",
+        })
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        await provider.send("eth_requestAccounts", [])
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, abi, signer)
+        try {
+            await contract.partnerLogin(metaMaskAddress[0], password)
+            const status = await contract.checkIsPartnerLogged(
+                metaMaskAddress[0]
+            )
+            console.log("Partner Login Status: ", status)
+
+            //const userDetails = getUserDetails(metaMaskAddress[0])
+            //await userDetails.wait(1)
+            //console.log("User Details: ", userDetails)
+            //localStorage.setItem("userDetails", userDetails)
+            //window.location.href = "/pages/userHome.html"
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        console.log("Error")
+    }
+}
+
+window.checkLoginStatus = async function (address) {
+    if (typeof window.ethereum !== "undefined") {
+        const metaMaskAddress = await ethereum.request({
+            method: "eth_requestAccounts",
+        })
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        await provider.send("eth_requestAccounts", [])
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, abi, signer)
+        try {
+            const status = await contract.checkIsUserLogged(address)
+
+            console.log("Login Status: ", status)
+
             // await transactionResponse.wait(1)
         } catch (error) {
             console.log(error)

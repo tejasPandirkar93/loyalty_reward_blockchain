@@ -171,108 +171,29 @@
     <body>
         <div class="wrapper">
             <div id="formContent">
-                <h2 class="active">Register</h2>
-                <div class="userDiv">
-                    <input
-                        type="text"
-                        id="username"
-                        class="fadeIn second"
-                        name="username"
-                        placeholder="User Name"
-                    />
-                    <input
-                        type="text"
-                        id="password1"
-                        class="fadeIn third"
-                        name="password1"
-                        placeholder="password"
-                    />
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Register User"
-                        onclick="addUser(document.getElementById('username').value,
-                        document.getElementById('password1').value);"
-                    />
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Login User"
-                        onclick="loginUser(document.getElementById('password1').value);"
-                    />
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Logout"
-                        onclick="userLogout();"
-                    />
-                </div>
-                <hr />
-                <div>
-                    <input
-                        type="text"
-                        id="partnerName"
-                        class="fadeIn second"
-                        name="partnerName"
-                        placeholder="Partner Name"
-                    />
-                    <input
-                        type="text"
-                        id="password2"
-                        class="fadeIn third"
-                        name="password2"
-                        placeholder="password"
-                    />
-
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Register Partner"
-                        onclick="addPartner(document.getElementById('partnerName').value, 
-                        document.getElementById('password2').value);"
-                    />
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Login Partner"
-                        onclick="loginPartner(document.getElementById('password2').value);"
-                    />
-                </div>
-                <hr />
+                Hi <label id="username">User</label>
+                <br />
                 <input
                     type="button"
                     class="fadeIn fourth"
-                    value="Fetch All Users"
-                    onclick="getAllUsers();"
+                    value="Logout"
+                    onclick="userLogout();"
                 />
-
-                <input
-                    type="button"
-                    class="fadeIn fourth"
-                    value="Fetch All Partners"
-                    onclick="getAllPartners();"
-                />
-
-                <div>
-                    <input
-                        type="text"
-                        id="checkLoginStatus"
-                        class="fadeIn second"
-                        name="checkLoginStatus"
-                        placeholder="Address"
-                    />
-
-                    <input
-                        type="button"
-                        class="fadeIn fourth"
-                        value="Check Login Status"
-                        onclick="checkLoginStatus(document.getElementById('checkLoginStatus').value);"
-                    />
-                </div>
-
-                <!--<div id="formFooter">
-                    <a class="underlineHover" href="#">Forgot Password?</a>
-                </div>-->
+                <script>
+                    const userDetails = localStorage.getItem("userDetails")
+                    console.log("User details Testing: ", userDetails)
+                    const userDetailsArray = userDetails.split(",")
+                    const _address = userDetailsArray[0]
+                    const _token = userDetailsArray[4]
+                    const _name = userDetailsArray[2]
+                    const content =
+                        _name +
+                        "<br /> Metamask Address: <b>" +
+                        _address +
+                        "</b><br /> Token: <b>" +
+                        _token
+                    document.getElementById("username").innerHTML = content
+                </script>
             </div>
         </div>
     </body>
